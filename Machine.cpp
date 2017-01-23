@@ -1,6 +1,7 @@
 #include "Machine.h"
 #include <stdexcept>
 #include <iostream>
+#include <boost/format.hpp>
 
 Machine::Machine(): offset_(0) {}
 
@@ -101,3 +102,24 @@ Machine::~Machine() {
   modbus_free(connection_);
 }
 
+
+void Machine::printState(std::ostream& out) const {
+  int nr = getNrRegisters();
+  for( int i = 0 ; i < nr; ++i) {
+    const char* mode;
+    if (isReadable(i)) {
+      if (isWritable(i)) {
+        mode = "rw";
+      } else {
+        mode = "r ";
+      }
+    } else {
+      if (isWritable(i)) {
+        mode = " w";
+      } else {
+        continue;
+      }
+    }
+    out << (boost::format("[%2d] (%s): %d\n") % i % mode % (int) registers_.at(i));
+  }
+}

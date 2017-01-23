@@ -2,14 +2,20 @@
 #include <vector>
 #include <string>
 #include <modbus.h>
+#include <ostream>
 
+// Question: create a mutex lock?
+// Most operations seem to be anyway pretty save...
+// Maybe lock only for write access?
+// But then why at all?
+// #include <mutex>
 
 
 class Machine {
   public:
     Machine();
     // Initialize machine with number of registers, all io
-    Machine(int nr_registers);
+    explicit Machine(int nr_registers);
 
     virtual ~Machine();
 
@@ -50,6 +56,11 @@ class Machine {
     // Create a modbus connection to machine
     // virtual -> some child classes might only simulate the sps
     virtual void connectSPS(std::string ip, unsigned short port);
+
+    // Print state in some form
+    virtual void printState(std::ostream&) const;
+
+    // std::mutex lock_;
   protected:
     // All in/out/io-registers
     std::vector<signed short> registers_;
