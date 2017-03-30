@@ -5,10 +5,10 @@
 
 Machine::Machine(): offset_(0) {}
 
-Machine::Machine(int nr_registers): registers_(nr_registers), offset_(0), mode_((nr_registers + 3)/4) {
+Machine::Machine(int in_reg, int out_reg): in_registers_(in_reg), out_registers_(out_reg) {
   for (int i = 0; i < nr_registers; i++) {
-    registers_.push_back(0); // fill all with 0
-    mode_.push_back(0xFF);   // fill all with read+write (io)
+    out_registers_.push_back(0); // fill all with 0
+    in_registers_.push_back(0); // fill all with 0
   }
 }
 

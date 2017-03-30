@@ -26,7 +26,7 @@ class SimulatedMachine: public T {
     // Udate registers with values from simulated machine
     void updateRegisters();
     // Update only one register
-    void getRegister(int, int);
+    int getRegister(int, int);
     
     // Show differences machine/registers
     void showDiff() const;
@@ -46,7 +46,10 @@ class SimulatedMachine: public T {
     // opens an iterface to the user
     // virtual, so that sub classes can inform the user
     // in custom ways
-    virtual void openUserInterface();
+    // NOTE: Currently not implemente
+    // To use this, initializeTTY has to start screen sessions
+    // instead of xterms
+    //virtual void openUserInterface();
 
     // To run as separate thread:
     // Take user input and modify machine content on demand
@@ -62,7 +65,11 @@ class SimulatedMachine: public T {
     
     std::istream* in_;
     std::ostream* out_;
+    std::string pty_name_;
     std::vector<signed short> registers_sps_;
+
+  private:
+    SimulatedMachine(const SimulatedMachine<T>& m) = delete;
 
 };
 

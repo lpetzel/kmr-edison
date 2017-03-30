@@ -1,7 +1,7 @@
 CC=gcc
 CPP=g++
-CFLAGS=-O2 -I /usr/include/modbus
-LFLAGS=-lmodbus
+CFLAGS=-O2 -I /usr/include/modbus -pthread
+LFLAGS=-lmodbus -pthread
 
 OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.cpp,%.o,$(wildcard *.cpp))
 

@@ -15,32 +15,24 @@ class Machine {
   public:
     Machine();
     // Initialize machine with number of registers, all io
-    explicit Machine(int nr_registers);
+    explicit Machine(int nr_input_reg, int nr_output_reg);
 
     virtual ~Machine();
 
     // read cached register values (per default)
-    // The version with 3 registers will get this
-    // value directly from the machine. It will also
-    // update the cached value
-    virtual int getRegister(int nr) const;
-    virtual int getRegister(int nr, int);
+    int getInputRegister(int nr) const;
+    int getOutputRegister(int nr) const;
 
     // write register value to cache (per default)
-    // virtual -> some child classes might do some checking
-    // The variant with 3 arguments will send this one register
-    // immediately to the machine
-    virtual void setRegister(int nr, signed int val);
-    virtual void setRegister(int nr, signed int val, int);
+    void setRegister(int nr, signed int val);
+
+    // Sets only a single bit.
+    // 
+    void setPin(int pin, bool value = true);
     
     // Get number or registers
     int getNrRegisters() const {return registers_.size();}
     
-    // Check for errors (default -> true -> no errors)
-    // Check for errors in request
-    // Before sending the registers to machine, this will check, if the
-    // requested changes are okay
-    virtual bool checkModbusRequest() const {return true;}
     // Check for errors (default -> true -> no errors)
     // This function will be called after the registers are read from the PLC
     virtual bool checkState() const {return true;}
@@ -48,45 +40,44 @@ class Machine {
     // checkState must return true after a call to this method
     virtual void repairBrokenState();
 
-    // read all in and io registers from the machine
+    // read all registers from the machine
     virtual void updateRegisters();
-    // write all out and io registers to the machine
+    // write all out registers to the machine
     virtual void pushRegisters();
 
     // Create a modbus connection to machine
     // virtual -> some child classes might only simulate the sps
-    virtual void connectSPS(std::string ip, unsigned short port);
+    virtual void connectPLC(std::string ip, unsigned short port);
 
     // Print state in some form
     virtual void printState(std::ostream&) const;
 
+    //virtual void setLight(int color, int state);
+    
+    // Each sub class has to know its id in order to send the identification to the PLC
+    virtual unsigned short getMachineIdentification() const=0;
+
     // std::mutex lock_;
   protected:
-    // All in/out/io-registers
-    std::vector<signed short> registers_;
-    // Add this offset when communicating with machine
-    unsigned short offset_;
-    // Each register has two bits:
-    // lower bit: update from machine
-    // higher bit: write to machine
-    // addresses per entry
-    std::vector<unsigned char> mode_;
-    modbus_t* connection_;
 
-    // return true if register i gets updated (in- or io-mode)
-    bool isReadable(unsigned short addr) const {
-      unsigned char mask = (addr & 0b11) << 1;
-      addr = addr >> 2;
-      mask = 1 << mask; // 1 = read
-      return registers_.at(addr) & mask;
-    }
-    // returns true, if the register gets pushed to the machine (out- or io-mode)
-    bool isWritable(unsigned short addr) const {
-      unsigned char mask = (addr & 0b11) << 1;
-      addr = addr >> 2;
-      mask = 2 << mask; // 2 = write
-      return registers_.at(addr) & mask;
-    }
+    // Depending on the machine, set the identification code
+    // for the SPS program
+    // Currently, that is at INPUT[10]:
+    // 1: base station
+    // 2: ring station
+    // 3: cap station
+    // 4: deliver station
+    // 5: SS?
+    void sendMachineIdentification(unsigned short id);
+
+
+    // Input registers
+    std::vector<signed short> in_registers_;
+    // Output registers
+    std::vector<signed short> out_registers_;
+    modbus_t* connection_;
+    unsigned int state_;
+
 };
     
 
