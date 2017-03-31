@@ -1,0 +1,18 @@
+#include "StorageStation.h"
+#include "MPSIoMapping.h"
+#include <iostream>
+
+using namespace std;
+
+StorageStation::StorageStation() {}
+StorageStation::~StorageStation() {}
+
+void StorageStation::getProduct(int slot) {
+  lock_guard<mutex> g(lock_);
+  sendCommand(STORAGE_STATION_CMD | GET_F_PRODUCT, slot);
+  waitForReady();
+}
+
+void StorageStation::reset() {
+  sendCommand(STORAGE_STATION_CMD | RESET_CMD);
+}

@@ -1,5 +1,35 @@
 #pragma once
 
+#define BASE_STATION_CMD 100
+#define RING_STATION_CMD 200
+#define CAP_STATION_CMD 300
+#define DELIVERY_STATION_CMD 400
+#define STORAGE_STATION_CMD 500
+
+// all stations
+#define RESET_CMD 0
+
+// base station
+#define GET_BASE_CMD 1
+#define MOVE_BASE2END_CMD 2
+#define DIR_OUT 1
+#define DIR_IN 2
+
+// ring station
+#define GET_RING_CMD 1
+
+// deliver station
+#define DELIVER_CMD 1
+
+// storage station station
+#define GET_F_PRODUCT 1
+
+#define STATUS_ERR 4
+#define STATUS_READY 2
+#define STATUS_BUISY 1
+
+
+/*
 // This file contains a couple of define statments for the modbus communication.
 // Also there are two very simple inline functions for translating the bit number
 // to the correct register and bit number within the 2 byte word.
@@ -152,4 +182,4 @@ inline void modbusSetPin( unsigned short* reg, unsigned int pin, bool value = tr
 inline bool modbusGetPin( const unsigned short* reg, unsigned int pin) {
   return (bool) reg[pin << 4] | (1 << (pin & 15));
 }
-
+*/
