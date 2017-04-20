@@ -15,15 +15,19 @@ class Machine {
     virtual ~Machine();
 
     // 1 = BUISY
-    void sendCommand( unsigned short command, unsigned int payload = 0, unsigned char status = 1);
+    void sendCommand( unsigned short command, unsigned short payload1 = 0,
+        unsigned short payload2 = 0, unsigned char status = 1);
 
     // Create a modbus connection to machine
     // virtual -> some child classes might only simulate the sps
     void connectPLC(const std::string& ip, unsigned short port);
 
-    // void setLight(int color, int state);
+    void setLight(unsigned short color, unsigned short state = 1,
+        unsigned short time = 0);
+    void resetLight();
 
     virtual void reset() = 0;
+    virtual void identify() = 0;
 
     std::mutex lock_;
 

@@ -9,10 +9,10 @@ class BaseStation: public Machine {
 
     // Send command to get a cap of given color
     // and on given side
-    void getCap(unsigned short color, unsigned short side);
-    void getCap(unsigned short color);
+    void getBase(unsigned short slot, unsigned short side);
+    void getBase(unsigned short color);
     // Check, if the cap is ready for take away
-    bool capReady();
+    bool baseReady();
     // Check, if the last cap was taken -> new order can be processed
     bool isEmpty();
 

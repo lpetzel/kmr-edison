@@ -6,23 +6,48 @@
 #define DELIVERY_STATION_CMD 400
 #define STORAGE_STATION_CMD 500
 
-// all stations
+// all stations, no combining with Station code
+#define NO_CMD 0
+#define SET_TYPE_CMD 10
+#define TYPE_BS 1
+#define TYPE_RS 2
+#define TYPE_CS 3
+#define TYPE_DS 4
+#define TYPE_SS 5
+#define LIGHT_RESET_CMD 20
+#define LIGHT_RED_CMD 21
+#define LIGHT_YELLOW_CMD 22
+#define LIGHT_GREEN_CMD 23
+#define LIGHT_OFF 0
+#define LIGHT_ON 1
+#define LIGHT_BLINK 2
+// For all stations, combine with staition code
+// (eg BASE_STATION_CMD + RESET_CMD)
 #define RESET_CMD 0
+
+// base, ring and cup station
+#define MOVE_BAND_CMD 2
+#define DIR_OUT 3
+#define DIR_MID 2
+#define DIR_IN 1
 
 // base station
 #define GET_BASE_CMD 1
-#define MOVE_BASE2END_CMD 2
-#define DIR_OUT 1
-#define DIR_IN 2
 
 // ring station
-#define GET_RING_CMD 1
+#define WAIT_FOR_BASES_CMD 1
+#define MOUNT_RING_CMD 3
+
+// cap station
+#define CAP_ACTION_CMD
+#define CAP_RETRIEVE 1
+#define CAP_MOUNT 2
 
 // deliver station
 #define DELIVER_CMD 1
 
 // storage station station
-#define GET_F_PRODUCT 1
+#define GET_F_PRODUCT_CMD 1
 
 #define STATUS_ERR 4
 #define STATUS_READY 2

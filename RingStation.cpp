@@ -22,3 +22,7 @@ bool RingStation::ringReady() {
 void RingStation::reset() {
   sendCommand(RING_STATION_CMD | RESET_CMD);
 }
+
+void BaseStation::identify() {
+  sendCommand(SET_TYPE_CMD, TYPE_RS);
+}

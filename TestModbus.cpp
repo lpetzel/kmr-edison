@@ -22,7 +22,7 @@ void TestModbus::run(BaseStation* station) {
         cout << "Which colour (1-3, 4 = abort)?" << endl;
         cin >> choice2;
         if ((choice2 > 0) and (choice2 < 4)) {
-          station->getCap(choice2);
+          station->getBase(choice2);
         } else if (choice2 != 4) {
           cout << "Illegal choice " << choice2 << "!" << endl;
         }

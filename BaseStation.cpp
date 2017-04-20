@@ -7,11 +7,11 @@ using namespace std;
 BaseStation::BaseStation() {}
 BaseStation::~BaseStation() {}
 
-void BaseStation::getCap(unsigned short color) {
+void BaseStation::getBase(unsigned short color) {
   getCap( color, DIR_OUT);
 }
 
-void BaseStation::getCap(unsigned short color, unsigned short side) {
+void BaseStation::getBase(unsigned short color, unsigned short side) {
   lock_guard<mutex> g(lock_);
   sendCommand(BASE_STATION_CMD | GET_BASE_CMD, color);
   sendCommand(BASE_STATION_CMD | MOVE_BASE2END_CMD, side);
@@ -19,7 +19,7 @@ void BaseStation::getCap(unsigned short color, unsigned short side) {
 }
 
 // Need information on how to access this
-bool BaseStation::capReady() {
+bool BaseStation::baseReady() {
   cout << "Not implemented yet!" << endl;
   return true;
 }
@@ -32,4 +32,8 @@ bool BaseStation::isEmpty() {
 
 void BaseStation::reset() {
   sendCommand(BASE_STATION_CMD | RESET_CMD);
+}
+
+void BaseStation::identify() {
+  sendCommand(SET_TYPE_CMD, TYPE_BS);
 }

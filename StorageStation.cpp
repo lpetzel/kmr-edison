@@ -16,3 +16,7 @@ void StorageStation::getProduct(int slot) {
 void StorageStation::reset() {
   sendCommand(STORAGE_STATION_CMD | RESET_CMD);
 }
+
+void BaseStation::identify() {
+  sendCommand(SET_TYPE_CMD, TYPE_SS);
+}

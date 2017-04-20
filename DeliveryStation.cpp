@@ -16,3 +16,7 @@ void DeliveryStation::deliverProduct(int slot) {
 void DeliveryStation::reset() {
   sendCommand(DELIVERY_STATION_CMD | RESET_CMD);
 }
+
+void BaseStation::identify() {
+  sendCommand(SET_TYPE_CMD, TYPE_DS);
+}
