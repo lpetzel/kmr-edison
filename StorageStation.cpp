@@ -1,6 +1,7 @@
 #include "StorageStation.h"
 #include "MPSIoMapping.h"
 #include <iostream>
+#include "MachineProtoServer.h"
 
 using namespace std;
 
@@ -9,14 +10,14 @@ StorageStation::~StorageStation() {}
 
 void StorageStation::getProduct(int slot) {
   lock_guard<mutex> g(lock_);
-  sendCommand(STORAGE_STATION_CMD | GET_F_PRODUCT, slot);
+  sendCommand(STORAGE_STATION_CMD + GET_F_PRODUCT_CMD, slot);
   waitForReady();
 }
 
 void StorageStation::reset() {
-  sendCommand(STORAGE_STATION_CMD | RESET_CMD);
+  sendCommand(STORAGE_STATION_CMD + RESET_CMD);
 }
 
-void BaseStation::identify() {
+void StorageStation::identify() {
   sendCommand(SET_TYPE_CMD, TYPE_SS);
 }

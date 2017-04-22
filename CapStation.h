@@ -9,5 +9,8 @@ class CapStation: public Machine {
     void mountCap();
     virtual ~CapStation();
 
+    // Handle protobuf message (from refbox)
+    void handleProtobufMsg(google::protobuf::Message& m, MachineProtoServer& s);
+    virtual void identify();
     void reset();
 };

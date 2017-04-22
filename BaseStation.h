@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Machine.h"
+#include "protobuf/proto.pb.h"
 
 class BaseStation: public Machine {
   public:
@@ -15,6 +16,9 @@ class BaseStation: public Machine {
     bool baseReady();
     // Check, if the last cap was taken -> new order can be processed
     bool isEmpty();
+    // Handle protobuf message (from refbox)
+    void handleProtobufMsg(google::protobuf::Message& m, MachineProtoServer& s);
 
+    virtual void identify();
     void reset();
 };

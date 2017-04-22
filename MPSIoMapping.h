@@ -53,6 +53,10 @@
 #define STATUS_READY 2
 #define STATUS_BUISY 1
 
+// TBD: timeout for the band to reach the end position
+// in ms
+#define TIMEOUT_BAND 10000
+
 
 /*
 // This file contains a couple of define statments for the modbus communication.

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Machine.h"
+#include "protobuf/proto.pb.h"
 
 class RingStation: public Machine {
   public:
@@ -11,6 +12,9 @@ class RingStation: public Machine {
     void getRing();
     // Check, if the cap is ready for take away
     bool ringReady();
+    // Handle protobuf message (from refbox)
+    void handleProtobufMsg(google::protobuf::Message& m, MachineProtoServer& s);
 
+    virtual void identify();
     void reset();
 };

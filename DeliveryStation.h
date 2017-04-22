@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Machine.h"
+#include "protobuf/proto.pb.h"
 
 class DeliveryStation: public Machine {
   public:
@@ -11,5 +12,9 @@ class DeliveryStation: public Machine {
     // slot is between 1 and 3
     void deliverProduct(int slot);
 
+    // Handle protobuf message (from refbox)
+    void handleProtobufMsg(google::protobuf::Message& m, MachineProtoServer& s);
+
+    virtual void identify();
     void reset();
 };

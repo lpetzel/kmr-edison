@@ -4,8 +4,7 @@ enum ConveyorDirection {
 }
  
 enum SensorOnMPS {
-  INPUT = 1;  // or should we name that OUTPUT_FRONT since there is only an
-sensor on the input side if this is used as an output
+  INPUT = 1;  // or should we name that OUTPUT_FRONT since there is only an sensor on the input side if this is used as an output
   OUTPUT = 2;
   MIDDLE = 3;
 }
@@ -16,7 +15,7 @@ enum SSOp {
 }
  
 enum SSField {
-  TODO
+  TODO = 1;
 }
  
 enum CsOp {
@@ -32,7 +31,6 @@ enum LightState {
  
 message SetSignalLight {
   required uint32 ID = 1;
- 
   required LightState red     = 2;
   required LightState yellow = 3;
   required LightState green = 4;
@@ -40,40 +38,33 @@ message SetSignalLight {
  
 message MoveConveyorBelt {
   required uint32 ID = 1;
- 
   required ConveyorDirection direction = 2;
   required SensorOnMPS        stop_sensor = 3;
 }
  
 message BSPushBase {
   required uint32 ID = 1;
- 
-  required uint32 slot = 2; // [0-2] where 0 is on the input side, 1 in the
-middle and 2 on the output side
+  required uint32 slot = 2; // [0-2] where 0 is on the input side, 1 in the middle and 2 on the output side
 }
  
 message SSTask {
   required uint32 ID = 1;
- 
-  required SSOp = 2;
-  required SSField = 3;
+  required uint32 SSOp = 2;
+  required uint32 SSField = 3;
 }
  
 message RSMountRing {
   required uint32 ID = 1;
- 
   required uint32 feeder = 2; // [0,1] where 0 is the feeder closer to the input side and 1 is the feeder closer to the output side
 }
  
 message CSTask {
   required uint32 ID = 1;
- 
   required CsOp operation = 2;
 }
  
 message DSActivateGate {
   required uint32 ID = 1;
- 
   required uint32 gate = 2; // [0-2] where 0 is the gate closest to the input, 1 is the gate in the middle and 2 is the last gate from the input
 }
  
