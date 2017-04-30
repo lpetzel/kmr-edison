@@ -1,6 +1,6 @@
 #include "CapStation.h"
 #include "MPSIoMapping.h"
-#include "protobuf/proto.pb.h"
+#include "protobuf/MachineInstructions.pb.h"
 #include "MachineProtoServer.h"
 #include <iostream>
 
@@ -25,6 +25,8 @@ void CapStation::identify() {
   sendCommand(SET_TYPE_CMD, TYPE_CS);
 }
 
+using namespace llsf_msgs;
+
 #define CASE(type) } else if (dynamic_cast<type *> (&m)) {auto mc = dynamic_cast<type *> (&m);
 #define ACK auto msg = make_shared<MPSFinished>();\
   msg->set_id(mc->id()); \
@@ -35,7 +37,6 @@ void CapStation::handleProtobufMsg(google::protobuf::Message& m, MachineProtoSer
   CASE(MoveConveyorBelt)
     sendCommand(MOVE_BAND_CMD + CAP_STATION_CMD, mc->stop_sensor(), 0, // CMD, data1, data2
       TIMEOUT_BAND);
-    ACK;
     // TODO: send MPSProductRetrived, when Product is retrieved.
     // Unfortunately I don't have a msp message for that yet.
     // Furthermore, this should be done in background. How?
@@ -47,7 +48,6 @@ void CapStation::handleProtobufMsg(google::protobuf::Message& m, MachineProtoSer
     // checks, weather the product was retrieved.
   CASE(CSTask)
     sendCommand(CAP_ACTION_CMD + CAP_STATION_CMD, mc->operation());
-    ACK;
   } else {
     Machine::handleProtobufMsg(m, s);
   }

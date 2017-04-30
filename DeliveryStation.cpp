@@ -22,6 +22,7 @@ void DeliveryStation::identify() {
   sendCommand(SET_TYPE_CMD, TYPE_DS);
 }
 
+using namespace llsf_msgs;
 
 #define CASE(type) } else if (dynamic_cast<type *> (&m)) {auto mc = dynamic_cast<type *> (&m);
 #define ACK auto msg = make_shared<MPSFinished>();\
@@ -32,7 +33,6 @@ void DeliveryStation::handleProtobufMsg(google::protobuf::Message& m, MachinePro
   if (0) {
   CASE(DSActivateGate)
     deliverProduct(mc->gate() + 1);
-    ACK;
   } else {
     Machine::handleProtobufMsg(m, s);
   }

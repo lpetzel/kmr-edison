@@ -21,3 +21,23 @@ void StorageStation::reset() {
 void StorageStation::identify() {
   sendCommand(SET_TYPE_CMD, TYPE_SS);
 }
+
+
+using namespace llsf_msgs;
+
+#define CASE(type) } else if (dynamic_cast<type *> (&m)) {auto mc = dynamic_cast<type *> (&m);
+#define ACK auto msg = make_shared<MPSFinished>();\
+  msg->set_id(mc->id()); \
+  s.send_to_all(msg);
+
+void StorageStation::handleProtobufMsg(google::protobuf::Message& m, MachineProtoServer& s) {
+  if (0) {
+  CASE(SSTask)
+    // TODO: this is for sure wrong!
+    sendCommand(GET_F_PRODUCT_CMD
+        + STORAGE_STATION_CMD, mc->slot().y() + 1, 0, // CMD, data1, data2
+      TIMEOUT_BAND);
+  } else {
+    Machine::handleProtobufMsg(m, s);
+  }
+}

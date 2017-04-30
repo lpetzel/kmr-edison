@@ -40,8 +40,8 @@
 
 // cap station
 #define CAP_ACTION_CMD 1
-//#define CAP_RETRIEVE 1
-//#define CAP_MOUNT 2
+#define CAP_RETRIEVE 1
+#define CAP_MOUNT 2
 
 // deliver station
 #define DELIVER_CMD 1

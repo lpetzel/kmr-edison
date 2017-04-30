@@ -28,6 +28,8 @@ void RingStation::identify() {
   sendCommand(SET_TYPE_CMD, TYPE_RS);
 }
 
+using namespace llsf_msgs;
+
 #define CASE(type) } else if (dynamic_cast<type *> (&m)) {auto mc = dynamic_cast<type *> (&m);
 #define ACK auto msg = make_shared<MPSFinished>();\
   msg->set_id(mc->id()); \
@@ -47,7 +49,6 @@ void RingStation::handleProtobufMsg(google::protobuf::Message& m, MachineProtoSe
     // Background thread, which can be activated and deactivated.
     // This thread fights for the mutex and, on a periodical base,
     // checks, weather the product was retrieved.
-    ACK
   CASE(RSMountRing)
     sendCommand(GET_BASE_CMD + BASE_STATION_CMD, mc->feeder() + 1);
   } else {

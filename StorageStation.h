@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Machine.h"
-#include "protobuf/proto.pb.h"
+#include "protobuf/MachineInstructions.pb.h"
 
 class StorageStation: public Machine {
   public:
@@ -13,7 +13,7 @@ class StorageStation: public Machine {
     void getProduct(int slot);
 
     // Handle protobuf message (from refbox)
-    // void handleProtobufMsg(google::protobuf::Message& m, MachineProtoServer& s);
+    void handleProtobufMsg(google::protobuf::Message& m, MachineProtoServer& s);
 
     virtual void identify();
     void reset();

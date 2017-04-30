@@ -2,7 +2,7 @@ CPP=g++
 CFLAGS=-O2 -pthread
 LFLAGS=-pthread -lprotobuf -L ../lib -lllsf_protobuf_comm -lboost_system
 
-OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.cpp,%.o,$(wildcard *.cpp)) ../protobuf/proto.o
+OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.cpp,%.o,$(wildcard *.cpp)) ../protobuf/MachineInstructions.pb.o ../protobuf/MachineDescription.pb.o ../protobuf/ProductColor.pb.o ../protobuf/Team.pb.o
 
 %.o: %.cpp
 	$(CPP) -c -o $@ $< $(CFLAGS)

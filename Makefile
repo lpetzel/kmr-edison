@@ -1,8 +1,8 @@
 include flags.mk
 
-OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.cpp,%.o,$(wildcard *.cpp)) protobuf/proto.o
+OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.cpp,%.o,$(wildcard *.cpp)) 
 
-OBJ_BASE := BaseStation.o CapStation.o DeliveryStation.o Machine.o MachineProtoServer.o RingStation.o StorageStation.o TestModbus.o timeUtils.o protobuf/proto.o
+OBJ_BASE := BaseStation.o CapStation.o DeliveryStation.o Machine.o MachineProtoServer.o RingStation.o StorageStation.o TestModbus.o timeUtils.o protobuf/MachineInstructions.pb.o protobuf/MachineDescription.pb.o protobuf/ProductColor.pb.o protobuf/Team.pb.o
 
 %.o: %.cpp
 	$(CPP) -c -o $@ $< $(CFLAGS)

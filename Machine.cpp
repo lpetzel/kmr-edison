@@ -1,6 +1,6 @@
 #include "Machine.h"
 #include "MPSIoMapping.h"
-#include "protobuf/proto.pb.h"
+#include "protobuf/MachineInstructions.pb.h"
 #include "timeUtils.h"
 #include "timeoutException.h"
 #include <stdexcept>
@@ -134,6 +134,8 @@ void Machine::setLight(unsigned short color, unsigned short state, unsigned shor
 void Machine::resetLight() {
   setLight(LIGHT_RESET_CMD, 0);
 }
+
+using namespace llsf_msgs;
 
 #define CAST(type) } else if (dynamic_cast<type *> (&m)) {auto mc = dynamic_cast<type *> (&m);
 

@@ -1,9 +1,10 @@
-#include "../protobuf/proto.pb.h"
+#include "../protobuf/MachineInstructions.pb.h"
 #include <protobuf_comm/client.h>
 #include <vector>
 #include <string>
 using namespace google::protobuf;
 using namespace protobuf_comm;
+using namespace llsf_msgs;
 
 void printProtoMsg(uint16_t component_id,
     uint16_t msg_type, std::shared_ptr<Message> msg) {
@@ -46,14 +47,14 @@ int main(int argc, char** argv) {
       case 2: {
               auto mx = new MoveConveyorBelt();
               mx->set_direction(BACKWARD);
-              mx->set_stop_sensor(INPUT);
+              mx->set_stop_sensor(SENSOR_INPUT);
               m.reset(mx);
               break;
               }
       case 3: {
               auto mx = new MoveConveyorBelt();
               mx->set_direction(FORWARD);
-              mx->set_stop_sensor(OUTPUT);
+              mx->set_stop_sensor(SENSOR_OUTPUT);
               m.reset(mx);
               break;
               }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Machine.h"
-#include "protobuf/proto.pb.h"
+#include "protobuf/MachineInstructions.pb.h"
 
 class RingStation: public Machine {
   public:
