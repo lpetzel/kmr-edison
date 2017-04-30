@@ -14,4 +14,4 @@ clean:
 	rm *.o
 
 run: out
-	LD_LIBRARY_PATH=lib ./out 127.0.0.1
+	LD_LIBRARY_PATH=lib ./out 127.0.0.1 5000
