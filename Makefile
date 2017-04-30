@@ -1,9 +1,6 @@
-CC=gcc
-CPP=g++
-CFLAGS=-O2 -I /usr/include/modbus  -pthread
-LFLAGS=-lmodbus -pthread -lprotobuf -L ./lib -L . -lllsf_protobuf_comm
+include flags.mk
 
-OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.cpp,%.o,$(wildcard *.cpp))
+OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.cpp,%.o,$(wildcard *.cpp)) protobuf/proto.o
 
 %.o: %.cpp
 	$(CPP) -c -o $@ $< $(CFLAGS)
@@ -11,4 +8,10 @@ OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.cpp,%.o,$(wildcard *
 all: out
 
 out: $(OBJECTS)
-	$(CPP) -o $@ $< $(LFLAGS)
+	$(CPP) -o $@ $^ $(LFLAGS)
+
+clean:
+	rm *.o
+
+run: out
+	LD_LIBRARY_PATH=lib ./out 127.0.0.1

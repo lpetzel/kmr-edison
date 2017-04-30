@@ -75,7 +75,7 @@ void TestModbus::run(RingStation* station) {
     if (choice == 0) {
       station->reset();
     } else if (choice == 1) {
-      station->getRing();
+      //station->getRing();
     } else if (choice == 2) {
       break;
     } else {

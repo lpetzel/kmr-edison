@@ -9,7 +9,7 @@ class RingStation: public Machine {
     virtual ~RingStation();
 
     // Send command to get a ring
-    void getRing();
+    // void getRing();
     // Check, if the cap is ready for take away
     bool ringReady();
     // Handle protobuf message (from refbox)

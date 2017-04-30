@@ -48,6 +48,7 @@ class Machine {
   protected:
     // timeout in ms, 0 -> no timeout
     bool waitForReady(int timeout = 0);
+    void waitForBuisy();
     void updateRegisters();
     void pushRegisters();
     // Input registers

@@ -11,7 +11,7 @@ class BaseStation: public Machine {
     // Send command to get a cap of given color
     // and on given side
     void getBase(unsigned short slot, unsigned short side);
-    void getBase(unsigned short color);
+    void getBase(unsigned short slot);
     // Check, if the cap is ready for take away
     bool baseReady();
     // Check, if the last cap was taken -> new order can be processed

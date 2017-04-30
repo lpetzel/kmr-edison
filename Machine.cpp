@@ -29,6 +29,9 @@ void Machine::sendCommand(unsigned short command, unsigned short payload1, unsig
   if (not waitForReady(timeout))
     throw runtime_error("Previous command did not end within timeout");
   pushRegisters();
+  if (status & STATUS_BUISY) {
+    waitForBuisy();
+  }
   if (timeout and (not waitForReady(timeout))) {
     ostringstream str;
     str << "Timeout during command #" << command << " (Timeout was " << timeout << ")";
@@ -61,6 +64,25 @@ bool Machine::waitForReady(int timeout) {
   return true;
 }
 
+void Machine::waitForBuisy() {
+  struct timespec time_c, time_0, time_d;
+  clock_gettime(CLOCK_MONOTONIC, &time_0);
+    
+  do {
+    updateRegisters();
+    if (in_registers_.at(4) & STATUS_BUISY) {
+      out_registers_[3] &= ~ STATUS_BUISY;
+      pushRegisters();
+      break;
+    }
+    clock_gettime(CLOCK_MONOTONIC, &time_c);
+    timespec_diff( &time_0, &time_c, &time_d);
+    if( time_d.tv_sec * 1000 + time_d.tv_nsec / 1000000 > TIMEOUT_BUISY) {
+      throw timeoutException("Machine did not reset buisy flag within time limit");
+    }
+  } while (! (in_registers_.at(4) & (STATUS_READY | STATUS_ERR)));
+}
+
 
 // TODO: do error handeling here.
 //       eg throw error
@@ -76,7 +98,11 @@ void Machine::pushRegisters() {
 
 void Machine::connectPLC(const std::string& ip, unsigned short port) {
   connection_ = modbus_new_tcp(ip.c_str(), port);
-  modbus_connect(connection_);
+  if (modbus_connect(connection_)) {
+    ostringstream o;
+    o << "Connection to " << ip << " (" << port << ") failed:" << endl << modbus_strerror(errno);
+    throw runtime_error(o.str());
+  }
   updateRegisters();
 }
 

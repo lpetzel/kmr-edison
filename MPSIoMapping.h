@@ -56,6 +56,8 @@
 // TBD: timeout for the band to reach the end position
 // in ms
 #define TIMEOUT_BAND 10000
+// TBD: time out for the msp to unset the buisy flag in ms
+#define TIMEOUT_BUISY 100
 
 
 /*
