@@ -1,3 +1,8 @@
+// TestModbus
+// is a test class for some manual modbus testing without protobuf being
+// involved.
+// The class uses partly out-dated protocol specifications and deprecated
+// methods. It is therfore not reliable.
 #pragma once
 
 class BaseStation;

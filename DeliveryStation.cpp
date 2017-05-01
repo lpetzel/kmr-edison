@@ -9,7 +9,7 @@ DeliveryStation::DeliveryStation() {}
 DeliveryStation::~DeliveryStation() {}
 
 void DeliveryStation::deliverProduct(int slot) {
-  lock_guard<mutex> g(lock_);
+  //lock_guard<mutex> g(lock_);
   sendCommand(DELIVERY_STATION_CMD | DELIVER_CMD, slot);
   waitForReady();
 }
@@ -25,9 +25,6 @@ void DeliveryStation::identify() {
 using namespace llsf_msgs;
 
 #define CASE(type) } else if (dynamic_cast<type *> (&m)) {auto mc = dynamic_cast<type *> (&m);
-#define ACK auto msg = make_shared<MPSFinished>();\
-  msg->set_id(mc->id()); \
-  s.send_to_all(msg)
 
 void DeliveryStation::handleProtobufMsg(google::protobuf::Message& m, MachineProtoServer& s) {
   if (0) {

@@ -1,3 +1,6 @@
+// A very basic protobuf interface.
+// Connects to the main program via protobuf and fakes the refbox.
+// There are only a couple of messages, you can send.
 #include "../protobuf/MachineInstructions.pb.h"
 #include <protobuf_comm/client.h>
 #include <vector>

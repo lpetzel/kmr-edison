@@ -1,23 +1,31 @@
+// This file contains various defines.
+// They are related to the communication to the PLC.
 #pragma once
 
+// Base commands for modbus communication:
+// Each machine type has a base prefix.
+// The sub commands are added to these base prefixes.
 #define BASE_STATION_CMD 100
 #define RING_STATION_CMD 200
 #define CAP_STATION_CMD 300
 #define DELIVERY_STATION_CMD 400
 #define STORAGE_STATION_CMD 500
 
-// all stations, no combining with Station code
+// all stations, no combining with Station code.
+// These commands will be sent, as they are.
 #define NO_CMD 0
 #define SET_TYPE_CMD 10
+#define LIGHT_RESET_CMD 20
+#define LIGHT_RED_CMD 21
+#define LIGHT_YELLOW_CMD 22
+#define LIGHT_GREEN_CMD 23
+// Payload for set_type_cmd
 #define TYPE_BS 1
 #define TYPE_RS 2
 #define TYPE_CS 3
 #define TYPE_DS 4
 #define TYPE_SS 5
-#define LIGHT_RESET_CMD 20
-#define LIGHT_RED_CMD 21
-#define LIGHT_YELLOW_CMD 22
-#define LIGHT_GREEN_CMD 23
+// payload for light command
 #define LIGHT_OFF 0
 #define LIGHT_ON 1
 #define LIGHT_BLINK 2
@@ -49,15 +57,22 @@
 // storage station station
 #define GET_F_PRODUCT_CMD 1
 
+// The status flags.
+// To be combined with bitwise | and read with bitwise &
 #define STATUS_ERR 4
 #define STATUS_READY 2
 #define STATUS_BUISY 1
 
 // TBD: timeout for the band to reach the end position
 // in ms
-#define TIMEOUT_BAND 10000
+// 0 is no timeout
+// NOTE: The timeout shall be handeled on refbox side
+#define TIMEOUT_BAND 0
 // TBD: time out for the msp to unset the buisy flag in ms
-#define TIMEOUT_BUISY 100
+// Normally this shall be within one PLC cycle.
+// (a couple of milli seconds).
+// However, due to protocol overhead, I use 1 sec as limit.
+#define TIMEOUT_BUISY 1000
 
 
 /*

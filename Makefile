@@ -4,9 +4,11 @@ OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.cpp,%.o,$(wildcard *
 
 OBJ_BASE := BaseStation.o CapStation.o DeliveryStation.o Machine.o MachineProtoServer.o RingStation.o StorageStation.o TestModbus.o timeUtils.o protobuf/MachineInstructions.pb.o protobuf/MachineDescription.pb.o protobuf/ProductColor.pb.o protobuf/Team.pb.o
 
+protobuf/MachineInstructions.pb.o:
+	cd protobuf; make
+
 %.o: %.cpp
 	$(CPP) -c -o $@ $< $(CFLAGS)
-
 
 test_modbus: main_testModbus.o $(OBJ_BASE)
 	$(CPP) -o $@ $^ $(LFLAGS)
@@ -15,6 +17,7 @@ proto_server: main_protoServer.o $(OBJ_BASE)
 	$(CPP) -o $@ $^ $(LFLAGS)
 
 all: test_modbus proto_server
+	cd modbus_server; make; cd ../proto_generator; make
 
 clean:
 	rm *.o

@@ -1,3 +1,5 @@
+// NOT USED ANYMORE:
+// The edison is now stateless
 #pragma once
 
 // Common States for all machines

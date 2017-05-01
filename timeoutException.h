@@ -1,3 +1,5 @@
+// An exception for timeouts.
+//
 #pragma once
 
 #include <stdexcept>

@@ -9,7 +9,7 @@ StorageStation::StorageStation() {}
 StorageStation::~StorageStation() {}
 
 void StorageStation::getProduct(int slot) {
-  lock_guard<mutex> g(lock_);
+  //lock_guard<mutex> g(lock_);
   sendCommand(STORAGE_STATION_CMD + GET_F_PRODUCT_CMD, slot);
   waitForReady();
 }
@@ -26,9 +26,6 @@ void StorageStation::identify() {
 using namespace llsf_msgs;
 
 #define CASE(type) } else if (dynamic_cast<type *> (&m)) {auto mc = dynamic_cast<type *> (&m);
-#define ACK auto msg = make_shared<MPSFinished>();\
-  msg->set_id(mc->id()); \
-  s.send_to_all(msg);
 
 void StorageStation::handleProtobufMsg(google::protobuf::Message& m, MachineProtoServer& s) {
   if (0) {

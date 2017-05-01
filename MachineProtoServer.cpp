@@ -27,6 +27,58 @@ void MachineProtoServer::handleProtobufMsg(ProtobufStreamServer::ClientID client
     uint16_t component_id, uint16_t msg_type, std::shared_ptr<google::protobuf::Message> msg) {
   auto m = dynamic_pointer_cast<InstructMachine> ( msg);
   if (m) {
+    // Lets push m to queue
+    {
+      unique_lock<mutex> l(lock_);
+      // Abort current job?
+      bool abort = false;
+      if( (not msg_.empty()) and messageOverwrites(m, msg_.front()))
+        abort = true;
+      for(auto iter = msg_.begin(); iter != msg_.end();) {
+        if( messageOverwrites(m, *iter) ) {
+          msg_.erase(iter++);
+          cout << "Kicked out message" << endl;
+        } else {
+          ++iter;
+        }
+      }
+      msg_.push_back(m);
+      // Abort _before_ releasing the lock
+      if (abort) {
+        lock_guard<mutex> l2(machine_->lock_);
+        machine_->abort_operation_ = true;
+        cout << "Set abort flag" << endl;
+      }
+    }
+    // After releasing all locks:
+    // signal new message
+    msg_available_.notify_all();
+  } else {
+    cerr << "Message " << msg->GetTypeName() << " cannot be parsed!" << endl;
+  }
+}
+  
+
+void MachineProtoServer::processQueue() {
+  shared_ptr<InstructMachine> m;
+  for (bool first = true; ;first = false) {
+    // Remove handled message and get a new message from queue
+    {
+      unique_lock<mutex> l(lock_);
+      if (not first)
+        msg_.pop_front();
+      while (msg_.empty()) {
+        // wait for message to arrive
+        msg_available_.wait(l);
+      }
+      m = msg_.front();
+    }
+    // Delete possible abort flag
+    {
+      lock_guard<mutex> l2(machine_->lock_);
+      machine_->abort_operation_ = false;
+    }
+    // Tell machine to handle the sub messages:
     // TODO: what to do with member machine and member set?
     try {
       if (m->has_light_state()) {
@@ -54,27 +106,25 @@ void MachineProtoServer::handleProtobufMsg(ProtobufStreamServer::ClientID client
       repl->set_id(m->id());
       repl->set_machine(m->machine());
       repl->set_set(MACHINE_REPLY_FINISHED);
+      bool aborted;
+      {
+        lock_guard<mutex> l2(machine_->lock_);
+        aborted = machine_->abort_operation_;
+      }
+      if (not aborted)
+        send_to_all(repl);
     } catch (const exception& e) {
       cout << e.what() << endl;
     }
-  } else {
-    cerr << "Message " << msg->GetTypeName() << " cannot be parsed!" << endl;
   }
-
-
-  //try {
-  //  machine_->handleProtobufMsg(*msg, *this);
-  //} catch (timeoutException& e) {
-  //  cout << "Operation timed out! Goin to reset the machine. " <<
-  //    "Going to ignore it on protobuf side (not good)." << endl;
-  //  machine_->reset(); // TODO This will create infiniete loops. Change resets behaviour or so...
-  //} catch (runtime_error& e) {
-  //  cout << "Got runtime error: " << e.what() << endl;
-  //} catch (invalid_argument& e) {
-  //  cout << "Got invalid argument error: " << e.what() << endl;
-  //}
 }
-  
+
+
+
+bool MachineProtoServer::messageOverwrites( shared_ptr<InstructMachine> n,
+    shared_ptr<InstructMachine> old) {
+  return n->set() == old->set();
+}
 
 
 MachineProtoServer& MachineProtoServer::initialize( unsigned short port, Machine* machine) {

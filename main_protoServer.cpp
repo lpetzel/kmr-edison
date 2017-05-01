@@ -58,8 +58,8 @@ int main(int argc, char** argv) {
         cout << "Bye. Going to exit!" << endl;
         exit(0);
         });
-  cout << "Killing the main thread..." << endl;
-  pthread_exit(nullptr);
+  cout << "Going to loop now infinitely..." << endl;
+  MachineProtoServer::getServer().processQueue();
   // will be never reached
   return 0;
 }

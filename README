@@ -1,0 +1,30 @@
+Prerequirements:
+
+You need to have libprotobuf, libmodbus and libboost installed.
+You will probably find them in your systems package manager.
+
+Furthermore you need to have protobuf_comm installed. 
+You get the files from the llsf_refbox repository:
+http://git.fawkesrobotics.org/llsf-refbox.git
+in src/libs/protobuf_comm. Copy the header files to your include path
+(I like /usr/local/include/protobuf_comm).
+The dynamically linked .so files are already in the repositories lib
+directory. However, you might have to recompile them.
+To do so go to
+ *) http://git.fawkesrobotics.org/llsf-refbox.git
+ *) cd src/libs/protobuf_comm
+ *) make
+ *) cd ../../libs
+ *) copy files (protobuf_comm.*) into lib directory
+    (or anywhere else in your link path)
+
+How to run the tool?
+To test the tool you run 3 programs:
+1) Simulate the modbus server:
+   cd modbus_server; make run
+2) Start main program
+   make run_proto_server
+3) Fake the refbox
+   cd proto_generator; make run
+
+Do it in this order and in three different terminals to see the output.

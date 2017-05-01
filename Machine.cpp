@@ -12,7 +12,7 @@
 
 using namespace std;
 
-Machine::Machine(): in_registers_(4), out_registers_(4), connection_(nullptr) {
+Machine::Machine(): abort_operation_(false), in_registers_(4), out_registers_(4), connection_(nullptr) {
   for (int i = 0; i < 4; ++i) {
     in_registers_.push_back(0);
     out_registers_.push_back(0);
@@ -47,9 +47,14 @@ bool Machine::waitForReady(int timeout) {
   }
     
   do {
-    // TODO: maybe different approach for exit possible?
-    // cout << "ready?" << endl;
-    updateRegisters();
+    {
+      lock_guard<mutex> l(lock_);
+      if (abort_operation_) {
+        cout << "Abort operation" << endl;
+        return false;
+      }
+      updateRegisters();
+    }
     if (in_registers_.at(3) & STATUS_BUISY) {
       out_registers_[3] &= ~ STATUS_BUISY;
       pushRegisters();
@@ -63,7 +68,10 @@ bool Machine::waitForReady(int timeout) {
     }
       
   } while (! (in_registers_.at(3) & (STATUS_READY | STATUS_ERR)));
-  return true;
+  if (in_registers_.at(3) & STATUS_READY)
+    return true;
+  else
+    return false;
 }
 
 void Machine::waitForBuisy() {

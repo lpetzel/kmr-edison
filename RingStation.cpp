@@ -31,14 +31,11 @@ void RingStation::identify() {
 using namespace llsf_msgs;
 
 #define CASE(type) } else if (dynamic_cast<type *> (&m)) {auto mc = dynamic_cast<type *> (&m);
-#define ACK auto msg = make_shared<MPSFinished>();\
-  msg->set_id(mc->id()); \
-  s.send_to_all(msg);
 
 void RingStation::handleProtobufMsg(google::protobuf::Message& m, MachineProtoServer& s) {
   if (0) {
   CASE(MoveConveyorBelt)
-    sendCommand(MOVE_BAND_CMD + RING_STATION_CMD, mc->stop_sensor(), 0, // CMD, data1, data2
+    sendCommand(MOVE_BAND_CMD + RING_STATION_CMD, mc->stop_sensor(), mc->direction(), // CMD, data1, data2
       TIMEOUT_BAND);
     // TODO: send MPSProductRetrived, when Product is retrieved.
     // Unfortunately I don't have a msp message for that yet.
