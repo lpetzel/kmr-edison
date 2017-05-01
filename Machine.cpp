@@ -21,7 +21,7 @@ Machine::Machine(): in_registers_(4), out_registers_(4), connection_(nullptr) {
 
 
 void Machine::sendCommand(unsigned short command, unsigned short payload1, unsigned short payload2, int timeout, unsigned char status) {
-  cout << "Send Command " << command << endl;
+  //cout << "Send Command " << command << endl;
   out_registers_[0] = command;
   out_registers_[1] = payload1;
   out_registers_[2] = payload2;
@@ -48,7 +48,7 @@ bool Machine::waitForReady(int timeout) {
     
   do {
     // TODO: maybe different approach for exit possible?
-    cout << "ready?" << endl;
+    // cout << "ready?" << endl;
     updateRegisters();
     if (in_registers_.at(3) & STATUS_BUISY) {
       out_registers_[3] &= ~ STATUS_BUISY;
@@ -91,12 +91,12 @@ void Machine::waitForBuisy() {
 //       and maybe add error to an error list for protobuf messages
 void Machine::updateRegisters() {
   modbus_read_registers( connection_, 0, 4, (unsigned short*) in_registers_.data());
-  cout << "Read (" << in_registers_[0] << ", " << in_registers_[3] << ")" << endl;
+  // cout << "Read (" << in_registers_[0] << ", " << in_registers_[3] << ")" << endl;
 }
 
 // write out all registers to plc
 void Machine::pushRegisters() {
-  cout << "Push (" << out_registers_[0] << ", " << out_registers_[3] << ")" << endl;
+  // cout << "Push (" << out_registers_[0] << ", " << out_registers_[3] << ")" << endl;
   modbus_write_registers( connection_, 0, 4, (unsigned short*) out_registers_.data());
 }
 

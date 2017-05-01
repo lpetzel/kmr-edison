@@ -24,7 +24,8 @@ int main(int argc, char** argv) {
   c.signal_received().connect(printProtoMsg);
   c.async_connect(argv[1], port);
   int answer;
-  shared_ptr<Message> m;
+  shared_ptr<InstructMachine> m;
+  unsigned int id = 0;
   do {
     cout << "Send a Protobuf package:" <<endl;
     cout << "  [0] exit" <<endl
@@ -32,6 +33,9 @@ int main(int argc, char** argv) {
       << "  [2] Move conveyor belt to start" <<endl
       << "  [3] Move conveqor belt to end" <<endl;
     cin >> answer;
+    m.reset(new InstructMachine());
+    m->set_id(id++);
+    m->set_machine("BaseStation");
     switch (answer) {
       case 0: break;
       case 1: {
@@ -40,22 +44,23 @@ int main(int argc, char** argv) {
               mx->set_red(OFF);
               mx->set_green(ON);
               mx->set_yellow(OFF);
-              cout << "Do a reset" << endl;
-              m.reset(mx);
-              cout << "Ok" << endl;
+              m->set_allocated_light_state(mx);
+              m->set_set(INSTRUCT_MACHINE_SET_SIGNAL_LIGHT);
               break;}
       case 2: {
               auto mx = new MoveConveyorBelt();
               mx->set_direction(BACKWARD);
               mx->set_stop_sensor(SENSOR_INPUT);
-              m.reset(mx);
+              m->set_allocated_conveyor_belt(mx);
+              m->set_set(INSTRUCT_MACHINE_MOVE_CONVEYOR);
               break;
               }
       case 3: {
               auto mx = new MoveConveyorBelt();
               mx->set_direction(FORWARD);
               mx->set_stop_sensor(SENSOR_OUTPUT);
-              m.reset(mx);
+              m->set_allocated_conveyor_belt(mx);
+              m->set_set(INSTRUCT_MACHINE_MOVE_CONVEYOR);
               break;
               }
       default:

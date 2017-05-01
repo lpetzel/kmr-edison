@@ -23,4 +23,4 @@ run_modbus: test_modbus
 	LD_LIBRARY_PATH=lib ./test_modbus 127.0.0.1 5000
 
 run_proto_server: proto_server
-	LD_LIBRARY_PATH=lib ./proto_server bs 127.0.0.1 5000 6000
+	LD_LIBRARY_PATH=lib ./proto_server bs 127.0.0.1 5000 4444

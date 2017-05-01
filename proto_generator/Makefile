@@ -17,5 +17,5 @@ clean:
 	rm *.o
 
 run: proto_gen
-	LD_LIBRARY_PATH=../lib ./proto_gen 127.0.0.1 6000
+	LD_LIBRARY_PATH=../lib ./proto_gen 127.0.0.1 4444
 
