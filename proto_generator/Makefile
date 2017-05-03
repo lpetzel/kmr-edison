@@ -1,6 +1,6 @@
 CPP=g++
-CFLAGS=-O2 -pthread
-LFLAGS=-pthread -lprotobuf -L ../lib -lllsf_protobuf_comm -lboost_system
+CFLAGS=-O2 -pthread -I/usr/local/include/protobuf_comm -std=c++11
+LFLAGS=-pthread -lprotobuf -L ../lib -lprotobuf_comm -lboost_system
 
 OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.cpp,%.o,$(wildcard *.cpp)) ../protobuf/MachineInstructions.pb.o ../protobuf/MachineDescription.pb.o ../protobuf/ProductColor.pb.o ../protobuf/Team.pb.o
 
@@ -17,5 +17,5 @@ clean:
 	rm *.o
 
 run: proto_gen
-	LD_LIBRARY_PATH=../lib ./proto_gen 127.0.0.1 4444
+	./proto_gen 127.0.0.1 4444
 

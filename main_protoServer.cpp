@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
   cout << "Server initialized" <<endl;
   cout << "If there is a disconnect, process will exit." <<endl;
   MachineProtoServer::getServer().signal_disconnected().connect(
-      [] (auto clientId, auto endpoint) -> void {
+      [] (int clientId, boost::system::error_code endpoint) -> void {
         cout << "Client disconnected..." << endl;
         cout << "Bye. Going to exit!" << endl;
         exit(0);

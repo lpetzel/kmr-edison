@@ -14,7 +14,7 @@ MachineProtoServer::MachineProtoServer( unsigned short port, Machine* machine):
     ProtobufStreamServer(port, proto_path_), machine_(machine), connected_(false) {
   // TODO: check, if I also have to set some ids in case of signal_connected().
   //       I guess I wont need signal_disconnected and signal_failed.
-  signal_connected().connect([this] (auto clientId, auto endpoint) -> void {
+  signal_connected().connect([this] (int clientId, boost::asio::ip::tcp::endpoint endpoint) -> void {
       // NOTE: No idea, if I'm goining to need this variable anywhere...
       // Help! What to do with this signal?
       this->connected_ = true;
