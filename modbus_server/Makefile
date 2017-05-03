@@ -16,4 +16,4 @@ clean:
 	rm *.o
 
 run: server_correct
-	LD_LIBRARY_PATH=../lib ./server_correct 127.0.0.1 5000
+	./server_correct 127.0.0.1 5000

@@ -1,0 +1,11 @@
+--- boost.mk	2017-05-03 14:30:49.071702862 +0000
++++ boost_old.mk	2017-05-03 14:30:35.211748443 +0000
+@@ -22,7 +22,7 @@
+ 
+ BOOST_LIB_DIRS=/usr/lib64 /usr/lib /usr/lib32 \
+ 	       /usr/local/lib64 /usr/local/lib \
+-	       /usr/lib/x86_64-linux-gnu
++	       /usr/lib/x86_64-linux-gnu /usr/lib/arm-linux-gnueabihf/
+ BOOST_INCLUDE_DIRS=
+ BOOST_LIBRARY_SUFFIXES=-mt NOSUFFIX
+ 

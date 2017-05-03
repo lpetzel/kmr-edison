@@ -1,5 +1,15 @@
 Prerequirements:
 
+
+
+If you are running debian or raspberry debian the following scripts
+will install prerequirements:
+prepare/install-dep
+prepare/gen-lib
+
+
+
+If you do not want to use these scripts, follow this paragraph.
 You need to have libprotobuf, libmodbus and libboost installed.
 You will probably find them in your systems package manager.
 
@@ -18,7 +28,11 @@ To do so go to
  *) copy files (protobuf_comm.*) into lib directory
     (or anywhere else in your link path)
 
+
+
+
 How to run the tool?
+
 To test the tool you run 3 programs:
 1) Simulate the modbus server:
    cd modbus_server; make run
@@ -28,3 +42,7 @@ To test the tool you run 3 programs:
    cd proto_generator; make run
 
 Do it in this order and in three different terminals to see the output.
+
+To run the tool in a real world scenario, execute
+./proto_server
+with the correct parameters

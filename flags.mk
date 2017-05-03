@@ -1,4 +1,4 @@
 CC=gcc
 CPP=g++
-CFLAGS=-O2 -I/usr/include/modbus  -pthread -std=c++11 -I/usr/local/include/protobuf_comm 
-LFLAGS=-lmodbus -pthread -lprotobuf -L ./lib -lprotobuf_comm -lboost_system
+CFLAGS=-O2 -I/usr/include/modbus -I./include -I../include -pthread -std=c++11
+LFLAGS=-lmodbus -pthread -lprotobuf -L./lib -L../lib -lprotobuf_comm -lboost_system

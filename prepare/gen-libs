@@ -1,0 +1,23 @@
+script_dir=$(pwd)
+cd ..
+git clone --depth=1 http://git.fawkesrobotics.org/llsf_refbox.git git_refbox || (echo "Error during clone, do you have internet"; exit 1)
+root_dir=$(pwd)
+mkdir lib
+mkdir -p include/protobuf_comm
+cd git_refbox/etc/buildsys
+patch boost.mk < $script_dir/patch_boost.mk.diff
+cd ../../src/libs/protobuf_comm
+cp *.h $root_dir/include/protobuf_comm
+make || (echo "Could not make protobuf_comm!"; exit 1)
+cd ../../../lib/
+cp *protobuf_comm.so* $root_dir/lib
+cd $root_dir/lib
+mv libllsf_protobuf_comm.so libprotobuf_comm.so
+echo "Preparation finished successfully!"
+echo "Before running any command you have to set the LD_LIBRARY_PATH"
+echo "Do"
+echo "export LD_LIBRARY_PATH='$root_dir/lib'"
+echo
+echo "The program can be started like this:"
+echo "./proto_server <Type (eg BS)> <ip of plc> 502 4444"
+

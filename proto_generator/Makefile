@@ -1,5 +1,5 @@
 CPP=g++
-CFLAGS=-O2 -pthread -I/usr/local/include/protobuf_comm -std=c++11
+CFLAGS=-O2 -pthread -I../include -std=c++11
 LFLAGS=-pthread -lprotobuf -L ../lib -lprotobuf_comm -lboost_system
 
 OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.cpp,%.o,$(wildcard *.cpp)) ../protobuf/MachineInstructions.pb.o ../protobuf/MachineDescription.pb.o ../protobuf/ProductColor.pb.o ../protobuf/Team.pb.o
