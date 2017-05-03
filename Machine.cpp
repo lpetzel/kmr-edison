@@ -93,6 +93,15 @@ void Machine::waitForBuisy() {
   } while (! (in_registers_.at(3) & (STATUS_READY | STATUS_ERR)));
 }
 
+bool Machine::waitForFree() {
+  for(;;) {
+    updateRegisters();
+    if (not (in_registers_.at(3) & STATUS_BUISY)) {
+      return true;
+    }
+  }
+}
+
 
 // TODO: do error handeling here.
 //       eg throw error

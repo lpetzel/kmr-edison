@@ -15,6 +15,7 @@
 
 class Machine;
 class MachineProtoServer;
+class Barcode;
 
 // Sigleton class
 // Connection to refbox
@@ -29,6 +30,10 @@ class MachineProtoServer : public protobuf_comm::ProtobufStreamServer {
     // A machine object, which has to be created before.
     // It won't be deleted by destructor.
     Machine* machine_;
+
+    // Barcode detector
+    Barcode* barcode_;
+
     // if this is true, a refbox has connected.
     // Currently unused.
     bool connected_;

@@ -56,6 +56,9 @@ class Machine {
     std::mutex lock_;
     bool abort_operation_;
 
+    // Needed to check, if a product was retrieved.
+    bool waitForFree();
+
   protected:
     // wait, until the ready bit is set.
     // That is, when the command is handled completely

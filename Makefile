@@ -2,7 +2,11 @@ include flags.mk
 
 OBJECTS := $(patsubst %.c,%.o,$(wildcard *.c)) $(patsubst %.cpp,%.o,$(wildcard *.cpp)) 
 
-OBJ_BASE := BaseStation.o CapStation.o DeliveryStation.o Machine.o MachineProtoServer.o RingStation.o StorageStation.o TestModbus.o timeUtils.o protobuf/MachineInstructions.pb.o protobuf/MachineDescription.pb.o protobuf/ProductColor.pb.o protobuf/Team.pb.o
+OBJ_BASE := BaseStation.o CapStation.o DeliveryStation.o Machine.o \
+  MachineProtoServer.o RingStation.o StorageStation.o TestModbus.o \
+  timeUtils.o Barcode.o protobuf/MachineInstructions.pb.o \
+  protobuf/MachineDescription.pb.o protobuf/ProductColor.pb.o \
+  protobuf/Team.pb.o protobuf/WorkpieceInfo.pb.o protobuf/ProductColor.pb.o
 
 all: test_modbus proto_server
 	cd modbus_server; make; cd ../proto_generator; make

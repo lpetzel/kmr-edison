@@ -1,10 +1,10 @@
 #include "MachineProtoServer.h"
 #include "Machine.h"
 #include <vector>
-#include <string>
 #include "timeoutException.h"
 #include <iostream>
 #include "protobuf/MachineInstructions.pb.h"
+#include "Barcode.h"
 
 using namespace std;
 using namespace protobuf_comm;
@@ -16,10 +16,11 @@ MachineProtoServer::MachineProtoServer( unsigned short port, Machine* machine):
   //       I guess I wont need signal_disconnected and signal_failed.
   signal_connected().connect([this] (int clientId, boost::asio::ip::tcp::endpoint endpoint) -> void {
       // NOTE: No idea, if I'm goining to need this variable anywhere...
-      // Help! What to do with this signal?
       this->connected_ = true;
       });
   signal_received().connect(boost::bind(&MachineProtoServer::handleProtobufMsg, this, _1, _2, _3, _4));
+  // Don't do as initializer, because I use this as arguemnt.
+  barcode_ = new Barcode(this);
 }
 
 
@@ -111,10 +112,20 @@ void MachineProtoServer::processQueue() {
         lock_guard<mutex> l2(machine_->lock_);
         aborted = machine_->abort_operation_;
       }
-      if (not aborted)
+      barcode_->setMachineName(m->machine());
+      barcode_->takePicture();
+      if(m->set() == INSTRUCT_MACHINE_WAIT_FOR_PICKUP) {
+        // Okay, now this is blocking!
+        // Anyway the protocol does not support non blocking waiting yet.
+        // TODO: Once the MPS protocol is adapted, also make this non-blocking.
+        machine_->waitForFree();
+        barcode_->takePicture();
+      }
+      if (not aborted) {
         send_to_all(repl);
+      }
     } catch (const exception& e) {
-      cout << e.what() << endl;
+      cerr << e.what() << endl;
     }
   }
 }

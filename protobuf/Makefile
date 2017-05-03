@@ -6,7 +6,10 @@ include ../flags.mk
 %.o: %.cc
 	$(CPP) -c -o $@ $< $(CFLAGS)
 
-all: MachineInstructions.pb.cc MachineDescription.pb.cc ProductColor.pb.cc Team.pb.cc MachineInstructions.pb.o MachineDescription.pb.o ProductColor.pb.o Team.pb.o
+all: MachineInstructions.pb.cc MachineDescription.pb.cc ProductColor.pb.cc \
+  Team.pb.cc WorkpieceInfo.pb.cc ProductColor.pb.cc MachineInstructions.pb.o \
+  MachineDescription.pb.o ProductColor.pb.o Team.pb.o WorkpieceInfo.pb.o \
+  ProductColor.pb.o
 
 clean:
 	rm *.o *.pb.cc *.pb.h

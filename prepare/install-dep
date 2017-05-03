@@ -5,4 +5,5 @@ sudo aptitude install libprotoc-dev libboost libboost-all-dev build-essential &&
 sudo aptitude install vim libprotobuf-dev libboost-dev libboost-dev && \
 sudo aptitude install openssl libprotobuf-dev libprotobuf-c-dev && \
 sudo aptitude install libssl-dev git libmodbus-dev libprotobuf-dev protobuf-compiler
+sudo aptitude install libopencv-dev zbar-tools libzbar-dev
 exit $?
