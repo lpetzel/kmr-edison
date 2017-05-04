@@ -1,10 +1,10 @@
 script_dir=$(pwd)
 cd ..
-git clone --depth=1 http://git.fawkesrobotics.org/llsf_refbox.git git_refbox || (echo "Error during clone, do you have internet"; exit 1)
+git clone --depth=1 http://git.fawkesrobotics.org/llsf-refbox.git || echo "Error during clone, do you have internet"
 root_dir=$(pwd)
 mkdir lib
 mkdir -p include/protobuf_comm
-cd git_refbox/etc/buildsys
+cd llsf-refbox/etc/buildsys
 patch boost.mk < $script_dir/patch_boost.mk.diff
 cd ../../src/libs/protobuf_comm
 cp *.h $root_dir/include/protobuf_comm
